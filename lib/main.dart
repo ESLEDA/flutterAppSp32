@@ -9,6 +9,7 @@ import 'pages/sp32Page/sp32_page.dart';
 import 'pages/tablaPage/tabla_page.dart';
 import 'pages/table2Page/table2_page.dart';
 import 'pages/addsp32Page/add_sp32_page.dart';
+import 'pages/perfilPage/perfil_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/table', page: () =>  const TablePage()),
         GetPage(name: '/table2', page: () =>  const Table2Page()),
         GetPage(name: '/addSp32', page: () =>  const AddSp32Page()),
+        GetPage(name: '/perfil', page: () => const PerfilPage()),
       ],
       navigatorKey: Get.key,
 

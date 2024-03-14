@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/iniciarSesionPage/iniciar_sesion_controller.dart';
 
@@ -15,13 +17,13 @@ class _IniciarSesionPageState extends State<IniciarSesionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       body: Stack(
         children: [
-          _ImageCover(),
-          _Subtitulo('Bienvenido!', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
-          _Subtitulo('Inicia sesión', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
-          _BtnParaRegresar(),
+          const _ImageCover(),
+          const _Subtitulo('Bienvenido!', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
+          const _Subtitulo('Inicia sesión', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
+          const _BtnParaRegresar(),
           _BoxFormulario(top: 400.0), // Aquí ajustas la posición vertical
         ],
       ),
@@ -108,8 +110,10 @@ class _BtnParaRegresar extends StatelessWidget {
 
 class _BoxFormulario extends StatelessWidget {
   final double top;
+  _BoxFormulario({this.top = 250.0}); // Valor predeterminado en caso de que no se proporcione
 
-  const _BoxFormulario({this.top = 250.0}); // Valor predeterminado en caso de que no se proporcione
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +132,8 @@ class _BoxFormulario extends StatelessWidget {
               
               const SizedBox(height: 20),
               TextField(
+                controller: email,
+
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.markunread_outlined, color: customColor),
@@ -143,6 +149,8 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: password,
+
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   prefixIcon: Icon(Icons.https_outlined, color: customColor),
@@ -158,7 +166,17 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () => Get.find<IniciarSesionController>().goToSp32(),
+                onPressed: () {
+                  print(email.text);
+                  print(password.text);
+
+                  jsonEncode({
+                    "email": email.text,
+                    "password": password.text
+                  });
+
+                  Get.find<IniciarSesionController>().goToSp32();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: customColor, // Cambia el color del botón
                   

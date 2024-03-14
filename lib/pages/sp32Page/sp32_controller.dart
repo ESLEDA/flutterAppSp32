@@ -12,4 +12,8 @@ class Sp32Controller extends GetxController{
   void goToAddSp32Page(){
     Get.toNamed('/addSp32');
   }
+
+  void goToPerfilPage(){
+    Get.toNamed('/perfil');
+  }
 }

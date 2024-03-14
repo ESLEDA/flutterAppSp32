@@ -124,10 +124,11 @@ class _BoxFormulario extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Nombre con apellidos',
-                  prefixIcon: Icon(Icons.account_circle_outlined, color: customColor),
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.markunread_outlined, color: customColor),
                   labelStyle: TextStyle(color: customColor),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: customColor),
@@ -136,13 +137,13 @@ class _BoxFormulario extends StatelessWidget {
                     borderSide: BorderSide(color: customColor),
                   ),
                 ),
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.markunread_outlined, color: customColor),
+                  labelText: 'Celular',
+                  prefixIcon: Icon(Icons.ad_units, color: customColor),
                   labelStyle: TextStyle(color: customColor),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: customColor),

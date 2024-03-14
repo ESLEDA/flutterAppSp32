@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/pages/sp32Page/sp32_controller.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,7 @@ class _Sp32PageState extends State<Sp32Page> {
           _Subtitulo('Inicio', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
           _Subtitulo('Visualización de los Sp32', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _BtnParaRegresar(),
-          _BtnTextWithIcon(text: 'Sp32 wifi.ssd(a)', icon: Icons.arrow_forward_rounded, top: 350.0), // Puedes ajustar el top como necesites
+          _BtnTextWithIcon(text: 'Sp32 wifi.ssd(a)', icon: Icons.arrow_forward_rounded, top: 350.0, ), // Puedes ajustar el top como necesites
           _AddRoomButton(),
         ],
       ),
@@ -102,13 +103,43 @@ class _BtnParaRegresar extends StatelessWidget {
       right: 20.0,
       
       child: IconButton(
-        icon: const Icon(Icons.arrow_circle_left_outlined,  color: Color(0xFF11245C), ),
-        onPressed: () => Get.find<Sp32Controller>().goToInicioSesionPage(),
+        icon: const Icon(Icons.account_circle,  color: Color(0xFF11245C), ),
+        onPressed: () => _showLogoutDialog(context),
         iconSize: 40.0,
       ),
     );
   }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cerrar Sesión'),
+          content: const Text('¿Estás seguro de que quieres cerrar sesión?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el AlertDialog
+              },
+            ),
+            TextButton(
+              child: const Text('Cerrar Sesión'),
+              onPressed: () {
+                // Aquí iría la lógica para cerrar la sesión, por ejemplo:
+                // Get.find<Sp32Controller>().goToPerfilPage();
+                // Luego cerrar el diálogo
+                Navigator.of(context).pop(); // Cierra el AlertDialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
 
 
 
@@ -169,7 +200,7 @@ class _AddRoomButton extends StatelessWidget {
             backgroundColor: const Color(0xFF11245C), // Color de fondo
           ),
           child: const Text(
-            'Ver',
+            'Añadir dispositivo',
             style: TextStyle(color: Colors.white),
           ),
         ),

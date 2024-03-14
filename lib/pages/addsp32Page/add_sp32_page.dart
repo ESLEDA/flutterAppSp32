@@ -19,13 +19,10 @@ class _AddSp32PageState extends State<AddSp32Page> {
       body: Stack(
         children: [
           _ImageCover(),
-          _Subtitulo('SP32', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
-          _Subtitulo('Detectado', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
+          _Subtitulo('!Hola¡', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
+          _Subtitulo('example@gmail.com', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _BtnParaRegresar(),
-          _BtnTextWithIcon(text: 'Sp32 wifi.ssd(a)', icon: Icons.add, top: 350.0), // Puedes ajustar el top como necesites
-          _TitleTable(),
-          _WhiteRectangle(),
-          _TableData(),
+          _BoxFormulario(),
           _AddRoomButton(),
         ],
       ),
@@ -110,64 +107,59 @@ class _BtnParaRegresar extends StatelessWidget {
   }
 }
 
-
-
-class _BtnTextWithIcon extends StatelessWidget {
-  final String text;
-  final IconData icon;
+class _BoxFormulario extends StatelessWidget {
   final double top;
-
-  const _BtnTextWithIcon({
-    required this.text,
-    required this.icon,
-    required this.top,
-  });
+  const _BoxFormulario({this.top = 370.0}); // Valor predeterminado en caso de que no se proporcione
 
   @override
   Widget build(BuildContext context) {
+    Color customColor = const Color(0xFFFFFFFF);
+
     return Positioned(
       top: top,
-      width: 300,
-      left: 35,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white, // Background color
-          shadowColor: Colors.blue, // Text and icon color
-          textStyle: const TextStyle(fontSize: 16),
-        ),
-        onPressed: () {},//=> Get.find<Sp32Controller>().goToCuartoPage(),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(text),
-            const SizedBox(width: 100), //
-            Icon(icon, color: Colors.blue),
-             
-            
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-class _WhiteRectangle extends StatelessWidget {
-  const _WhiteRectangle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      top: 400,
-      child: Center(
+      left: 20.0,
+      right: 20.0,
+      child: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.78, // Ajusta el ancho del rectángulo según tus necesidades
-          height: MediaQuery.of(context).size.height * 0.066, // Ajusta la altura del rectángulo según tus necesidades
-          decoration: BoxDecoration(
-            color: Color(0xff11245C), // Establece el color blanco del rectángulo
-            borderRadius: BorderRadius.circular(0.0), // Opcional: ajusta el radio de la esquina si deseas esquinas redondeadas
-            border: Border.all(color: Colors.grey), // Opcional: agrega un borde al rectángulo
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Nombre del dispositivo',
+                  prefixIcon: Icon(Icons.wifi_rounded, color: customColor),
+                  labelStyle: TextStyle(color: customColor),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 50),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Descripción',
+                  prefixIcon: Icon(Icons.assignment_outlined, color: customColor),
+                  labelStyle: TextStyle(color: customColor),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 20),
+              
+              
+              
+            ],
           ),
         ),
       ),
@@ -177,120 +169,11 @@ class _WhiteRectangle extends StatelessWidget {
 
 
 
-class _TableData extends StatelessWidget {
-  const _TableData();
-  
-  get f11245C => null;
 
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      top: 400,
-      child: Center(
-        child: Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          columnWidths: const {
-            0: FractionColumnWidth(0.33),
-            1: FractionColumnWidth(0.45),
-            2: FractionColumnWidth(0.35),
-            
-          },
-          border: TableBorder.all(),
-          
-          children: const [
-            TableRow(
-              children: [
-                
-                TableCell(
-                  child: Center(
-                    child: Text(
-                      ' wifi.ssd(oficina)',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 244, 244, 245), // CamAbia el color del texto a naranja
-                        fontWeight: FontWeight.bold, // Opcional: puedes agregar estilos adicionales
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                ),
-                TableCell(
-                  child: Center(
-                    child: Text(
-                      '',
-                      style: TextStyle(
-                        color: Color(0xff11245C), // Cambia el color del texto a naranja
-                        fontSize: 18.0,
-                        
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                TableCell(
-                  child: Center(
-                    child: Text(
-                      '',
-                      style: TextStyle(
-                        color: Color(0xff11245C), // Cambia el color del texto a naranja
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold, // Opcional: puedes agregar estilos adicionales
-                      ),
-                    ),
-                  ),
-                ),
-                TableCell(
-                  child: Center(
-                    child: Text(
-                      '',
-                      style: TextStyle(
-                        color: Color(0xff11245C), // Cambia el color del texto a naranja
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-class _TitleTable extends StatelessWidget {
-  const _TitleTable();
 
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 510.0,
-      left: 40.0,
-      right: 40.0,
-      child: SizedBox(
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(255, 252, 252, 252), // Color de fondo
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0), // Ajusta el radio de la esquina a 0 para hacer cuadrado
-            ),
-          ),
-          child: const Text(
-            'Agregados',
-            style: TextStyle(
-              color: Color.fromARGB(255, 17, 8, 8),
-              fontSize: 18.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+
+
 
 
 

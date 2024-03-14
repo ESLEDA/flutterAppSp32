@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_application_1/pages/tablaPage/table_controller.dart';
 import 'package:get/get.dart';
@@ -24,10 +25,13 @@ class _TablePageState extends State<TablePage> {
           _Subtitulo('Estas dentro de:', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
           _Subtitulo('Cuarto 1', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _TitleTable(),
+          _WhiteRectangleDateHour(),
+          _TableDateHour(),
           _BtnParaRegresar(),
           _WhiteRectangle(),
+          
           _TableData(),
-          _AddRoomButton(),
+          //_AddRoomButton(),
         ],
       ),
     );
@@ -118,11 +122,33 @@ class _WhiteRectangle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      top: 20,
+      top: 50,
       child: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.78, // Ajusta el ancho del rectángulo según tus necesidades
-          height: MediaQuery.of(context).size.height * 0.066, // Ajusta la altura del rectángulo según tus necesidades
+          height: MediaQuery.of(context).size.height * 0.102, // Ajusta la altura del rectángulo según tus necesidades
+          decoration: BoxDecoration(
+            color: Colors.white, // Establece el color blanco del rectángulo
+            borderRadius: BorderRadius.circular(0.0), // Opcional: ajusta el radio de la esquina si deseas esquinas redondeadas
+            border: Border.all(color: Colors.grey), // Opcional: agrega un borde al rectángulo
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WhiteRectangleDateHour extends StatelessWidget {
+  const _WhiteRectangleDateHour();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      top: 450,
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.78, // Ajusta el ancho del rectángulo según tus necesidades
+          height: MediaQuery.of(context).size.height * 0.070, // Ajusta la altura del rectángulo según tus necesidades
           decoration: BoxDecoration(
             color: Colors.white, // Establece el color blanco del rectángulo
             borderRadius: BorderRadius.circular(0.0), // Opcional: ajusta el radio de la esquina si deseas esquinas redondeadas
@@ -137,14 +163,148 @@ class _WhiteRectangle extends StatelessWidget {
 
 
 class _TableData extends StatelessWidget {
-  const _TableData();
+  const _TableData({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      top: 50,
+      child: Center(
+        child: Table(
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          columnWidths: const {
+            0: FractionColumnWidth(0.33),
+            1: FractionColumnWidth(0.45),
+            2: FractionColumnWidth(0.35),
+          },
+          border: TableBorder.all(),
+          children: [
+            _buildTableRow(context, 'Temperatura', '26 C°'),
+            _buildTableRow(context, 'Humedad', '8 %'),
+            _buildTableRow(context, 'Voltaje', '6 V'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TableRow _buildTableRow(BuildContext context, String label, String value) {
+    return TableRow(
+      children: [
+        TableCell(
+          child: InkWell(
+            onTap: () => _showNumberInputAlertDialog(context, label),
+            child: Center(
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: Color(0xff11245C),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        TableCell(
+          child: Center(
+            child: Text(
+              value,
+              style: TextStyle(
+                color: Color(0xff11245C),
+                fontSize: 18.0,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showNumberInputAlertDialog(BuildContext context, String label) {
+    TextEditingController _minController = TextEditingController();
+    TextEditingController _maxController = TextEditingController();
+
+    // Utiliza el tema del contexto actual para mantener la consistencia en la UI
+    var theme = Theme.of(context);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return 
+          AlertDialog(
+          title: Text('Alerta'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Mínimo'),
+              TextField(
+                controller: _minController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "10",
+                  filled: true,
+                  fillColor: theme.primaryColor,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+              SizedBox(height: 20),
+              Text('Máximo'),
+              TextField(
+                controller: _maxController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "10",
+                  filled: true,
+                  fillColor: theme.primaryColor,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Guardar'),
+              onPressed: () {
+                // Aquí puedes hacer algo con los valores, como actualizar el estado
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+
+
+
+class _TableDateHour extends StatelessWidget {
+  const _TableDateHour();
   
   get f11245C => null;
 
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      top: 20,
+      top: 450,
       child: Center(
         child: Table(
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -163,7 +323,7 @@ class _TableData extends StatelessWidget {
                 TableCell(
                   child: Center(
                     child: Text(
-                      'Temperatura',
+                      'Fecha',
                       style: TextStyle(
                         color: Color(0xff11245C), // CamAbia el color del texto a naranja
                         fontWeight: FontWeight.bold, // Opcional: puedes agregar estilos adicionales
@@ -175,7 +335,7 @@ class _TableData extends StatelessWidget {
                 TableCell(
                   child: Center(
                     child: Text(
-                      '26°',
+                      '13/03/2024',
                       style: TextStyle(
                         color: Color(0xff11245C), // Cambia el color del texto a naranja
                         fontSize: 18.0,
@@ -191,7 +351,7 @@ class _TableData extends StatelessWidget {
                 TableCell(
                   child: Center(
                     child: Text(
-                      'Humedad',
+                      'Hora',
                       style: TextStyle(
                         color: Color(0xff11245C), // Cambia el color del texto a naranja
                         fontSize: 18.0,
@@ -203,7 +363,7 @@ class _TableData extends StatelessWidget {
                 TableCell(
                   child: Center(
                     child: Text(
-                      '6°',
+                      '8:50',
                       style: TextStyle(
                         color: Color(0xff11245C), // Cambia el color del texto a naranja
                         fontSize: 18.0,
@@ -213,6 +373,7 @@ class _TableData extends StatelessWidget {
                 ),
               ],
             ),
+            
           ],
         ),
       ),
@@ -220,13 +381,18 @@ class _TableData extends StatelessWidget {
   }
 }
 
+
+
 class _TitleTable extends StatelessWidget {
-  const _TitleTable();
+  final double top;
+
+  // Agrega un constructor que tome el valor de 'top'
+  const _TitleTable({this.top = 318.0}); // Valor por defecto de 318.0
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 318.0,
+      top: top, // Usa la variable 'top' aquí
       left: 40.0,
       right: 40.0,
       child: SizedBox(
@@ -250,6 +416,8 @@ class _TitleTable extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
