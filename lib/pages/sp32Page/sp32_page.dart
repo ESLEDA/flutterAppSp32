@@ -24,7 +24,8 @@ class _Sp32PageState extends State<Sp32Page> {
           _Subtitulo('Inicio', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
           _Subtitulo('Visualización de los Sp32', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _BtnParaRegresar(),
-          _BtnTextWithIcon(text: 'Sp32 wifi.ssd(a)', icon: Icons.arrow_forward_rounded, top: 350.0, ), // Puedes ajustar el top como necesites
+          _BtnTextWithIcon(text: 'Sp32 wifi.ssd(a)', icon: Icons.arrow_forward_rounded, top: 340.0,  ), // Puedes ajustar el top como necesites
+          _ExclamationButton(),
           _AddRoomButton(),
         ],
       ),
@@ -159,7 +160,8 @@ class _BtnTextWithIcon extends StatelessWidget {
     return Positioned(
       top: top,
       width: 300,
-      left: 35,
+      height: 50,
+      right: 35,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white, // Background color
@@ -171,7 +173,7 @@ class _BtnTextWithIcon extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(text),
-            const SizedBox(width: 100), //
+            const SizedBox(width: 95), //
             Icon(icon, color: Colors.blue),
              
             
@@ -209,3 +211,41 @@ class _AddRoomButton extends StatelessWidget {
   }
 }
 
+
+class _ExclamationButton extends StatelessWidget {
+  const _ExclamationButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 345.0,
+      left: 190,
+      height: 40,
+      child: FloatingActionButton(
+        onPressed: () => _showDescriptionDialog(context),
+        child: const Icon(Icons.error_outline, color: Colors.white), // Icono en blanco
+        backgroundColor: Color(0xFF4169E1), // Fondo azul #4169E1
+      ),
+    );
+  }
+
+  void _showDescriptionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Descripción'),
+          content: const Text('Aquí es la descripción del dispositivo'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el Dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
