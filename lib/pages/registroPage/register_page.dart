@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/registroPage/data/datasource/registrar.dart';
 import 'package:flutter_application_1/pages/registroPage/register_controller.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
-
-  
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -13,17 +12,27 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final RegisterController regCon = Get.put(RegisterController());
-  
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController celularController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
           _ImageCover(),
           _Subtitulo('Regístrate', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
           _Subtitulo('aquí!', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _BtnParaRegresar(),
-          _BoxFormulario(top: 400.0), // Aquí ajustas la posición vertical
+          _BoxFormulario(
+            nombreController: nombreController,
+            emailController: emailController,
+            celularController: celularController,
+            contrasenaController: contrasenaController,
+            top: 330.0,
+          ),
         ],
       ),
     );
@@ -84,7 +93,6 @@ class _Subtitulo extends StatelessWidget {
   }
 }
 
-
 class _BtnParaRegresar extends StatelessWidget {
   const _BtnParaRegresar();
 
@@ -92,23 +100,30 @@ class _BtnParaRegresar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: 45.0,
-      //left: 20.0,
       right: 20.0,
-      
       child: IconButton(
         icon: const Icon(Icons.arrow_circle_left_outlined, color: Colors.white, ),
-         onPressed: () => Get.find<RegisterController>().goToHomePage(),
+        onPressed: () => Get.find<RegisterController>().goToHomePage(),
         iconSize: 40.0,
       ),
     );
   }
 }
 
-
 class _BoxFormulario extends StatelessWidget {
+  final TextEditingController nombreController;
+  final TextEditingController emailController;
+  final TextEditingController celularController;
+  final TextEditingController contrasenaController;
   final double top;
 
-  const _BoxFormulario({this.top = 250.0}); // Valor predeterminado en caso de que no se proporcione
+  const _BoxFormulario({
+    required this.nombreController,
+    required this.emailController,
+    required this.celularController,
+    required this.contrasenaController,
+    this.top = 250.0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -125,21 +140,7 @@ class _BoxFormulario extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(
-                  labelText: 'Nombre con apellidos',
-                  prefixIcon: Icon(Icons.account_circle_outlined, color: customColor),
-                  labelStyle: TextStyle(color: customColor),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: customColor),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: customColor),
-                  ),
-                ),
-                keyboardType: TextInputType.name,
-              ),
-              const SizedBox(height: 20),
-              TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.markunread_outlined, color: customColor),
@@ -155,6 +156,23 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: celularController,
+                decoration: InputDecoration(
+                  labelText: 'Celular',
+                  prefixIcon: Icon(Icons.ad_units, color: customColor),
+                  labelStyle: TextStyle(color: customColor),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: customColor),
+                  ),
+                ),
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: contrasenaController,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   prefixIcon: Icon(Icons.https_outlined, color: customColor),
@@ -170,16 +188,23 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () => Get.find<RegisterController>().goToHomePage(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: customColor, // Cambia el color del botón
-                  
-                ),
-                child: const Text(
-                  'Registrar',
-                  style: TextStyle(color: Colors.white), // Cambia el color del texto a blanco
-                ),
-              ),
+  onPressed: () {
+    register(
+      context: context, // Pasa el contexto a la función register
+      email: emailController.text,
+      password: contrasenaController.text,
+      phone_number: celularController.text,
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    backgroundColor: customColor, // Cambia el color del botón
+  ),
+  child: const Text(
+    'Registrar',
+    style: TextStyle(color: Colors.white), // Cambia el color del texto a blanco
+  ),
+),
+
             ],
           ),
         ),
@@ -187,12 +212,3 @@ class _BoxFormulario extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-

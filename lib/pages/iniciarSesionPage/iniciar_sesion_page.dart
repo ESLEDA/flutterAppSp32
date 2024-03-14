@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/iniciarSesionPage/data/datasource/iniciar_sesion.dart';
 import 'package:flutter_application_1/pages/iniciarSesionPage/iniciar_sesion_controller.dart';
-
 import 'package:get/get.dart';
 
 class IniciarSesionPage extends StatefulWidget {
-  const IniciarSesionPage({super.key});
+  const IniciarSesionPage({Key? key}) : super(key: key);
 
   @override
   State<IniciarSesionPage> createState() => _IniciarSesionPageState();
 }
 
 class _IniciarSesionPageState extends State<IniciarSesionPage> {
-  final IniciarSesionController IniCon = Get.put(IniciarSesionController());
+  final IniciarSesionController iniciarSesionController = Get.put(IniciarSesionController());
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
           _ImageCover(),
           _Subtitulo('Bienvenido!', top: 170.0, left: 40.0, fontSize: 32.0, fontWeight: FontWeight.bold),
           _Subtitulo('Inicia sesión', top: 220.0, left: 40.0, fontSize: 20.0, fontWeight: FontWeight.w400),
           _BtnParaRegresar(),
-          _BoxFormulario(top: 400.0), // Aquí ajustas la posición vertical
+          _BoxFormulario(top: 400.0, emailController: emailController, passwordController: passwordController), // Pasar los controladores al widget _BoxFormulario
         ],
       ),
     );
   }
 }
-
-
 
 class _ImageCover extends StatelessWidget {
   const _ImageCover();
@@ -85,7 +85,6 @@ class _Subtitulo extends StatelessWidget {
   }
 }
 
-
 class _BtnParaRegresar extends StatelessWidget {
   const _BtnParaRegresar();
 
@@ -95,7 +94,6 @@ class _BtnParaRegresar extends StatelessWidget {
       top: 45.0,
       //left: 20.0,
       right: 20.0,
-      
       child: IconButton(
         icon: const Icon(Icons.arrow_circle_left_outlined, color: Colors.white, ),
         onPressed: () => Get.find<IniciarSesionController>().goToHomePage(),
@@ -105,11 +103,12 @@ class _BtnParaRegresar extends StatelessWidget {
   }
 }
 
-
 class _BoxFormulario extends StatelessWidget {
   final double top;
+  final TextEditingController emailController; // Definir emailController fuera del constructor
+  final TextEditingController passwordController; // Definir passwordController fuera del constructor
 
-  const _BoxFormulario({this.top = 250.0}); // Valor predeterminado en caso de que no se proporcione
+  const _BoxFormulario({required this.top, required this.emailController, required this.passwordController}); // Pasar emailController y passwordController como parámetros
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +124,9 @@ class _BoxFormulario extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              
               const SizedBox(height: 20),
               TextField(
+                controller: emailController, // Usar emailController pasado como parámetro
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.markunread_outlined, color: customColor),
@@ -143,6 +142,7 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: passwordController, // Usar passwordController pasado como parámetro
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   prefixIcon: Icon(Icons.https_outlined, color: customColor),
@@ -158,10 +158,15 @@ class _BoxFormulario extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: () => Get.find<IniciarSesionController>().goToSp32(),
+                onPressed: () {
+                  String email = emailController.text;
+                  String password = passwordController.text;
+                  
+                  print('Email: $email, Contraseña: $password');
+                  inicio(context: context, email: email, password: password); 
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: customColor, // Cambia el color del botón
-                  
                 ),
                 child: const Text(
                   'Iniciar sesión',
